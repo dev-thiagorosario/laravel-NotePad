@@ -15,6 +15,10 @@ class CheckUserNotLog
      */
     public function handle(Request $request, Closure $next): Response
     {
+          if(session('user')){
+            return redirect('/');
+        }
         return $next($request);
+        
     }
 }
