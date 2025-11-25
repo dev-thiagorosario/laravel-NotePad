@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "notePad",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

@@ -13,7 +13,7 @@ ARG PGID=1000
 RUN apk add --no-cache \
     bash git curl unzip nano icu-dev libzip-dev oniguruma-dev postgresql-dev \
     libpng-dev libjpeg-turbo-dev freetype-dev \
-    linux-headers build-base $PHPIZE_DEPS
+    linux-headers build-base $PHPIZE_DEPS netcat-openbsd
 
 # Extensões PHP com suporte a GD, Intl, PostgreSQL etc.
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \

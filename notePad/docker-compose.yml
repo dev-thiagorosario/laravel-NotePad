@@ -11,10 +11,11 @@ services:
     container_name: notepad-app
     volumes:
       - ./:/var/www/html
+      - ./docker/entrypoint.sh:/usr/local/bin/docker-entrypoint.sh:ro
     environment:
       APP_ENV: ${APP_ENV:-local}
       APP_DEBUG: ${APP_DEBUG:-true}
-      APP_URL: ${APP_URL:-http://localhost}
+      APP_URL: ${APP_URL:-http://localhost:8080}
     depends_on:
       db:
         condition: service_healthy
@@ -27,7 +28,7 @@ services:
     depends_on:
       - app
     ports:
-      - "80:80"           # APP_URL=http://localhost
+      - "8080:80"         # APP_URL=http://localhost:8080
       # Se quiser expor Vite HMR: "5173:5173"
     volumes:
       - ./:/var/www/html:ro
