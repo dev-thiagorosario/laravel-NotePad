@@ -34,6 +34,18 @@ done
 
 rm /tmp/wait-for-db.php
 
-php artisan migrate --force --no-interaction
+if [ "${SKIP_AUTOMIGRATE:-0}" != "1" ]; then
+    set +e
+    php artisan migrate --force --no-interaction
+    MIGRATION_EXIT=$?
+    set -e
+
+    if [ "$MIGRATION_EXIT" -ne 0 ]; then
+# shellcheck disable=SC2016
+        echo "WARNING: automatic migrations failed (exit ${MIGRATION_EXIT}). Review the stack trace above."
+    fi
+else
+    echo "Skipping automatic migrations because SKIP_AUTOMIGRATE=${SKIP_AUTOMIGRATE}."
+fi
 
 exec "$@"

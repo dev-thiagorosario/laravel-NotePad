@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -13,7 +15,7 @@ class AuthController extends Controller
     }
 
     public function loginSubmit(Request $request){
-    
+
         $request->validate([
             'text_username' => 'required|email',
             'text_password' => 'required|min:6'
@@ -27,21 +29,20 @@ class AuthController extends Controller
         ]
 
         );
-    
+
         $username = $request->input('text_username');
         $password = $request->input('text_password');
-        
+
         $user = User::where('email', $username)-> where('deleted_at', NULL)->first();
 
         if(!$user){
-            return redirect()->back()->withInput()->with('loginError', 'Email ou Senha estão incorretos'); 
+            return redirect()->back()->withInput()->with('loginError', 'Email ou Senha estão incorretos');
         };
 
         if(!Hash::check($password, $user->password)){
             return redirect()->back()->withInput()->with('loginError', 'Email ou Senha estão incorretos');
         }
 
-        // registra último acesso com precisão de segundos
         $user->last_login_at = now();
         $user->save();
 
@@ -55,7 +56,6 @@ class AuthController extends Controller
         return redirect()->to('/');
 
     }
-
 
     public function logout(){
         session()->forget('user');
