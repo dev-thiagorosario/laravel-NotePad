@@ -10,10 +10,26 @@ class MainController extends Controller
 {
     public function index()
     {
-        $id = session('id');
+        $sessionUser = session('user');
 
-        $user = User::find($id)->toArray();
+        if (!is_array($sessionUser) || empty($sessionUser['id'])) {
+            session()->forget('user');
 
-        $notes = User::find($id)->notes()->get()->toArray();
+            return redirect()->route('login');
+        }
+
+        $user = User::find($sessionUser['id']);
+
+        if (!$user) {
+            session()->forget('user');
+
+            return redirect()->route('login');
+        }
+
+        $userData = $user->toArray();
+
+        $notes = $user->notes()->get()->toArray();
+
+        return view('home', compact('userData', 'notes'));
     }
 }

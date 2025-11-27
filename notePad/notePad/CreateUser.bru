@@ -5,11 +5,27 @@ meta {
 }
 
 post {
-  url: http://localhost:8080/login
-  body: none
+  url: http://localhost:8080/register
+  body: json
   auth: inherit
+}
+
+headers {
+  Accept: application/json
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "text_username": "Thiagost",
+    "text_email": "thiateste@example.com",
+    "text_password": "senha123",
+    "text_password_confirmation": "senha123"
+  }
+  
 }
 
 settings {
   encodeUrl: true
+  timeout: 0
 }
